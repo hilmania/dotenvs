@@ -1,0 +1,36 @@
+version: '3'
+
+volumes:
+  postgres_data:
+      driver: local
+
+services:
+  postgres:
+      image: postgres
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+  keycloak:
+      image: quay.io/keycloak/keycloak:legacy
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: 103.233.100.39
+        DB_DATABASE: eazy
+        DB_USER: btpadmin
+        DB_SCHEMA: keycloack
+        DB_PASSWORD: B19TechJanPark20
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Pa55w0rd
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+        PROXY_ADDRESS_FORWARDING: "true"
+        REDIRECT_SOCKET: "proxy-https"
+      ports:
+        - 8080:8080
+      depends_on:
+        - postgres
+      volumes:
+        - /var/www/html/btp_eazy_assets/keycloak:/opt/jboss/keycloak/themes/demo
