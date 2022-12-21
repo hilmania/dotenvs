@@ -8,6 +8,7 @@ services:
       - 'data-redis:/data'
     networks:
       - redis-network
+    command: redis-server --appendonly yes --replica-read-only no
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       retries: 3
