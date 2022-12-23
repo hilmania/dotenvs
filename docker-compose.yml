@@ -8,6 +8,9 @@ services:
       - 'data-redis:/data'
     networks:
       - redis-network
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
     command: redis-server --appendonly yes --replica-read-only no
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
